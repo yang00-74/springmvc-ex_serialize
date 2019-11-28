@@ -1,5 +1,6 @@
 package com.nathan.ex.serialize;
 
+import com.nathan.ex.util.Log;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -24,7 +25,6 @@ public class ExMessageConverter extends AbstractGenericHttpMessageConverter<Obje
     @Override
     public List<MediaType> getSupportedMediaTypes() {
         MediaType[] typeArr = {EX_STRING};
-        System.out.println("getSupportedMediaTypes:" + EX_STRING.toString());
         return Arrays.asList(typeArr);
     }
 
@@ -33,7 +33,7 @@ public class ExMessageConverter extends AbstractGenericHttpMessageConverter<Obje
             HttpMessageNotReadableException {
         byte[] bytes = StreamUtils.copyToByteArray(inputMessage.getBody());
         String json = new String(bytes);
-        System.out.println("readInternal invoked");
+        Log.trace();
         return json + "-hello";
     }
 
@@ -41,7 +41,7 @@ public class ExMessageConverter extends AbstractGenericHttpMessageConverter<Obje
     protected void writeInternal(Object o, Type type, HttpOutputMessage outputMessage) throws IOException,
             HttpMessageNotWritableException {
         outputMessage.getHeaders().setContentType(EX_STRING);
-        System.out.println("writeInternal invoked");
+        Log.trace();
         String json = "hello:" + o.toString();
         outputMessage.getBody().write(json.getBytes());
     }
