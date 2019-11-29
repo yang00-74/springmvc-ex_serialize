@@ -4,6 +4,7 @@ import com.nathan.ex.aop.LogInvokedMethod;
 import com.nathan.ex.serialize.annotaion.ExResponseBody;
 import com.nathan.ex.bean.UserInfo;
 import com.nathan.ex.serialize.annotaion.ExRequestBody;
+import com.nathan.ex.util.AopUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +34,13 @@ public class CoolController {
         UserInfo user = new UserInfo();
         user.setName("HooKong");
         user.setAge("90");
+        AopUtil.getProxy(this.getClass()).testInnerCalled("Dog");
+        testInnerCalled("Dog");
         return user;
     }
 
+    @LogInvokedMethod
+    public String testInnerCalled(String s) {
+        return "God";
+    }
 }
