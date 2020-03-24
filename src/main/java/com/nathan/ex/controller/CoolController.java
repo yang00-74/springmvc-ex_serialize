@@ -1,6 +1,7 @@
 package com.nathan.ex.controller;
 
-import com.nathan.ex.aop.LogInvokedMethod;
+import com.nathan.ex.aop.annotation.LogInvokedMethod;
+import com.nathan.ex.aop.annotation.TraceId;
 import com.nathan.ex.serialize.annotaion.ExResponseBody;
 import com.nathan.ex.bean.UserInfo;
 import com.nathan.ex.serialize.annotaion.ExRequestBody;
@@ -21,15 +22,18 @@ public class CoolController {
     @RequestMapping(value = "/testEx")
     @ExResponseBody
     @LogInvokedMethod
+    @TraceId
     public UserInfo getResolver (@ExRequestBody String acct) {
         UserInfo user = new UserInfo();
         user.setName("HooKong");
+        log.warn("Hello, world");
         return user;
     }
 
     @RequestMapping(value = "/testConverter", produces = {"application/ex-serialize"})
     @ResponseBody
     @LogInvokedMethod
+    @TraceId
     public UserInfo getConverter (@RequestBody String acct) {
         UserInfo user = new UserInfo();
         user.setName("HooKong");

@@ -1,5 +1,6 @@
 package com.nathan.ex.util;
 
+import com.nathan.ex.aop.annotation.LogInvokedMethod;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class AopUtil {
 
     /**
-     * In order to make {@link com.nathan.ex.aop.LogInvokedMethod} works while method called inner class, we
+     * In order to make {@link LogInvokedMethod} works while method called inner class, we
      * should get the proxy of target class and then invoke target method by it
      *
      * Precondition:

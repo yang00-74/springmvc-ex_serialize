@@ -25,7 +25,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        System.out.println("configure invoked");
         // 设置优先级
         converters.set(0, new ExMessageConverter());
     }

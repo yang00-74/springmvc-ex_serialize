@@ -3,6 +3,7 @@ buildscript {
         springBootVersion = '2.1.2.RELEASE'
     }
     repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         jcenter()
     }
     dependencies {
@@ -26,10 +27,10 @@ configurations {
 
 repositories {
     mavenLocal()
-    mavenCentral()
     maven {
         url "http://maven.aliyun.com/nexus/content/groups/public/"
     }
+    mavenCentral()
     maven {
         url "http://mvnrepository.com/artifact/"
     }

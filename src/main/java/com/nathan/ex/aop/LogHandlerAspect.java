@@ -1,7 +1,5 @@
 package com.nathan.ex.aop;
 
-import com.nathan.ex.util.Log;
-import com.nathan.ex.util.TokenUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +9,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author nathan.yang
@@ -22,23 +22,25 @@ import java.util.*;
 @Component
 public class LogHandlerAspect {
 
-    @Around(value = "@annotation(com.nathan.ex.aop.LogInvokedMethod)")
-    public Object logAround(ProceedingJoinPoint pjp) throws Throwable {
+    @Around(value = "@annotation(com.nathan.ex.aop.annotation.LogInvokedMethod)")
+    public Object logAround(ProceedingJoinPoint pjp) {
 
         InvokedMethodInfo methodInfo = getInvokedMethodInfo(pjp);
         HashMap map = new HashMap(16);
 
         methodInfo.getArgumentInfoList()
                 .forEach(argumentInfo -> map.put(argumentInfo.getName(), getParamJson(argumentInfo.getValue())));
-        String token = TokenUtil.getMethodToken();
-        Log.i(token, ": {}.{}, InputArguments: {}", methodInfo.getInvokedClass(), methodInfo.getInvokedMethod(),
+        log.info("{}.{}, InputArguments: {}", methodInfo.getInvokedClass(), methodInfo.getInvokedMethod(),
                 map.toString());
-
-        Object res = pjp.proceed();
-        Log.i(token, ": {}.{}, Return: {}", methodInfo.getInvokedClass(), methodInfo.getInvokedMethod(),
-                getParamJson(res));
-
-        return res;
+        try {
+            Object res = pjp.proceed();
+            log.info("{}.{}, Return: {}", methodInfo.getInvokedClass(), methodInfo.getInvokedMethod(),
+                    getParamJson(res));
+            return res;
+        } catch (Throwable e) {
+            log.error("Error", e);
+        }
+        return null;
     }
 
     private Object getParamJson(Object value) {

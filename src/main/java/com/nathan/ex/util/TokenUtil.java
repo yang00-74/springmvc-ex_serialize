@@ -14,4 +14,8 @@ public class TokenUtil {
         return PrefixConstant.METHOD_TOKEN_PRE + UUID.randomUUID().toString().replaceAll("-", "");
     }
 
+    public static String getTraceId() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
 }
